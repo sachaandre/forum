@@ -1,11 +1,10 @@
-Rails.application.routes.draw do  
-  root to: 'home#show'
+Rails.application.routes.draw do
+
   scope path: 'admin' do
     authenticate :user, lambda { |u| u.admin? } do
       mount RailsEmailPreview::Engine, at: 'emails'
     end
   end
-  
 
   devise_for :users,
            skip: %i[sessions],
@@ -13,13 +12,16 @@ Rails.application.routes.draw do
              registrations: 'users/registrations',
              sessions: 'users/sessions',
            },
-           path_names: { sign_up: 'register' }
-devise_scope :user do
-  get 'sign-in', to: 'users/sessions#new', as: :new_user_session
-  post 'sign-in', to: 'users/sessions#create', as: :user_session
-  match 'sign-out', to: 'users/sessions#destroy', as: :destroy_user_session,
-                    via: Devise.mappings[:user].sign_out_via
-end
+           path_names: { sign_up: 'inscription' }
+
+  devise_scope :user do
+    root to: 'users/sessions#new', as: :new_user_session
+    post 'sign-in', to: 'users/sessions#create', as: :user_session
+    match 'sign-out', to: 'users/sessions#destroy', as: :destroy_user_session,
+                      via: Devise.mappings[:user].sign_out_via
+
+  end
+
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   resources :users, only: [:show]
   mount Thredded::Engine => '/forum'

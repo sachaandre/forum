@@ -121,7 +121,7 @@ Thredded.parent_mailer = 'ApplicationMailer'
 # Thredded::ContentFormatter.whitelist[:elements] += %w(custom-element)
 
 # ==> User autocompletion (Private messages and @-mentions)
-# Thredded.autocomplete_min_length = 2 lower to 1 if have 1-letter names -- increase if you want
+Thredded.autocomplete_min_length = 2
 
 # ==> Error Handling
 # By default Thredded just renders a flash alert on errors such as Topic not found, or Login required.
