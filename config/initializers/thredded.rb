@@ -187,7 +187,15 @@ Thredded.autocomplete_min_length = 2
 
 Rails.application.config.to_prepare do
   Thredded::ApplicationController.module_eval do
+    # Require authentication to access the forums:
+    before_action :thredded_require_login!
+    # NB: in rails 4.2 you will need to change this to:
+    # before_action { thredded_require_login! }
+
+    # You may also want to render a login form after the
+    # "Please sign in first" message:
     rescue_from Thredded::Errors::LoginRequired do |exception|
+      # Place the code for rendering the login form here, for example:
       flash.now[:notice] = exception.message
       controller = Users::SessionsController.new
       controller.request = request
